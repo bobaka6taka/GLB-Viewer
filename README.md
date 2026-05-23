@@ -1,113 +1,44 @@
-# 🧊 GLB Viewer (Three.js)
+# GLB/GLTF 3D Web Viewer
 
-This project is a simple web-based **3D GLB model viewer** built with **Three.js**.  
-It loads and displays `.glb` (GLTF Binary) models directly in the browser with interactive controls.
+A minimalist, fast, and modern web-based viewer for 3D models in `.glb` and `.gltf` formats. Built with **Three.js**, this project features a clean cyberpunk/futuristic HUD interface with a dynamic particle network animating in the background.
 
-The viewer supports **Draco-compressed GLB files**, camera orbit controls, responsive resizing, and basic lighting.
+## 🚀 Features
 
----
+*   **Drag & Drop:** Simply drag and drop any 3D file anywhere into the browser window for instant loading.
+*   **Auto-Scaling & Centering:** Models are automatically resized and centered relative to the camera view, regardless of their original scale or bounding box proportions.
+*   **Draco Compression Support:** Out-of-the-box integration with `DRACOLoader` to seamlessly decode optimized, compressed 3D assets.
+*   **Scene Controls:** Toggle auto-rotation on/off and instantly reset the camera position back to the default view.
+*   **Realistic Lighting:** Balanced setup using high-intensity Ambient and Directional lights to display the true colors, textures, and material properties of your models.
 
-## ✨ Features
+## 🛠️ Tech Stack
 
-- Load and display `.glb` / `.gltf` 3D models
-- Supports **Draco compression**
-- Interactive camera (rotate, zoom, pan)
-- Responsive fullscreen canvas
-- No build tools or bundlers required
-- Works on **GitHub Pages**
+*   **HTML5 & CSS3** (Custom properties, CSS clip-paths, and neon glow filters)
+*   **JavaScript (ES6+)**
+*   **Three.js** (r160) – handles 3D rendering, scene graph logic, lighting, and camera interactions (`OrbitControls`)
+*   **HTML5 Canvas** – powers the interactive background particle constellation effect
 
----
+## 📦 Getting Started / Local Deployment
 
-## 🛠 Technologies Used
+Because this project relies on native ES modules (`import`), opening the `index.html` file directly in your browser via the `file://` protocol will cause CORS errors. It must be served through a local development server.
 
-- HTML5
-- JavaScript (ES Modules)
-- Three.js
-- GLTFLoader
-- DRACOLoader
-- OrbitControls
-
----
-
-## 📁 Project Structure
-
-```
-/
-├── index.html
-├── ahil.glb
-└── README.md
-```
-
-> ⚠️ The `.glb` file **must be in the same folder** as `index.html`  
-> File names are **case-sensitive** on GitHub Pages.
-
----
-
-## ▶️ How to Run the Project Locally
-
-> ❗ The project **will NOT work** if you open `index.html` with double click (`file://`)
-
-### Option 1: Using Python
+1.  Clone the repository:
 ```bash
-python -m http.server
-```
-
-Then open:
-```
-http://localhost:8000
-```
-
-### Option 2: Using Node.js
+    git clone [https://github.com/your-username/glb-viewer.git](https://github.com/your-username/glb-viewer.git)
+    ```
+2.  Navigate to the project directory:
 ```bash
-npx serve
-```
+    cd glb-viewer
+    ```
+3.  Launch a local server using any of the following methods:
+    *   **VS Code:** Install the **Live Server** extension, then click the *Go Live* button in the bottom status bar.
+    *   **Python:** Run `python -m http.server 8000` in your terminal.
+    *   **Node.js:** Install `http-server` globally (`npm install -g http-server`) and run the `http-server` command.
+
+## 📂 Project Structure
+
+*   `index.html` – The core layout containing the 3D canvas viewport, overlay scanlines, UI control wrappers, and drop zone triggers.
+*   `style.css` – Contains the full cyberpunk visual theme, including custom loader animations, holographic glow styles, and clipped button shapes.
+*   `main.js` – Houses all JavaScript logic, including the Three.js scene initialization, canvas particle physics loop, drag-and-drop file stream parsing, and strict memory management (automatically disposes of old geometries/materials when a new file is uploaded to prevent memory leaks).
 
 ---
-
-## 🌐 Running on GitHub Pages
-
-1. Push the project to a GitHub repository
-2. Go to **Settings → Pages**
-3. Select:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-4. Open the generated URL:
-```
-https://<username>.github.io/<repository-name>/
-```
-
----
-
-## 🧩 Draco Compression
-
-This project supports **Draco-compressed GLB models**.
-
-If your model is compressed, `DRACOLoader` is required (already included in the code).
-
-If you want to export a GLB **without Draco** (optional):
-- Blender → Export → glTF (.glb)
-- Disable **Draco Compression**
-
----
-
-## 🎮 Controls
-
-- **Left Mouse** – Rotate model
-- **Scroll Wheel** – Zoom
-- **Right Mouse** – Pan
-
----
-
-## 📌 Notes
-
-- Uses CDN imports (no npm needed)
-- Modern browsers required (Chrome, Edge, Firefox)
-- Internet connection required for Three.js CDN
-
----
-
-## 📄 License
-
-This project is open-source and free to use for educational and personal purposes.
-
+Created by Boris Randjev // 2026.

@@ -1,0 +1,329 @@
+:root {
+  --blue: #0af;
+  --blue-dim: #0066aa;
+  --blue-dark: #003355;
+  --black: #03080f;
+  --grid: #0af1;
+  --glow: 0 0 8px #0af8, 0 0 20px #0af4, 0 0 40px #0af2;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--black);
+  color: #cde;
+  font-family: 'Share Tech Mono', monospace;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+#particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+}
+
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 30px;
+  background: linear-gradient(to bottom, rgba(3,8,15,0.98), rgba(3,8,15,0.7));
+  border-bottom: 1px solid var(--blue-dim);
+  box-shadow: 0 0 30px rgba(0,170,255,0.15);
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+  color: var(--blue);
+  text-shadow: var(--glow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+.logo-icon svg { width: 100%; height: 100%; }
+
+.corner-deco {
+  font-size: 0.65rem;
+  color: #0af8;
+  letter-spacing: 0.15em;
+  text-align: right;
+  line-height: 1.6;
+}
+
+#three-container {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: all;
+}
+#three-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: rgba(3,8,15,0.88);
+  transition: opacity 0.5s ease;
+}
+
+#drop-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.drop-zone {
+  position: relative;
+  width: min(480px, 90vw);
+  height: 280px;
+  border: 2px dashed var(--blue-dim);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: rgba(0,100,170,0.04);
+  overflow: hidden;
+}
+
+.drop-zone::before,
+.drop-zone::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--blue);
+  border-style: solid;
+}
+.drop-zone::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.drop-zone::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--blue);
+  box-shadow: var(--glow), inset 0 0 40px rgba(0,170,255,0.05);
+}
+
+.drop-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 8px var(--blue));
+}
+
+.drop-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.05rem;
+  color: var(--blue);
+  text-shadow: var(--glow);
+  letter-spacing: 0.2em;
+}
+
+.drop-sub {
+  font-size: 0.75rem;
+  color: #5599cc;
+  letter-spacing: 0.1em;
+}
+
+#file-input { display: none; }
+
+.btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  background: transparent;
+  border: 1px solid var(--blue-dim);
+  padding: 10px 24px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--blue);
+  transform: translateX(-110%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.btn:hover {
+  color: var(--black);
+  border-color: var(--blue);
+  box-shadow: var(--glow);
+}
+
+.btn:hover::before { transform: translateX(0); }
+.btn:active { transform: scale(0.97); }
+
+.btn.active {
+  background: rgba(0,170,255,0.1);
+  border-color: var(--blue);
+  box-shadow: var(--glow);
+}
+
+#controls {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+#controls.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(3,8,15,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#loader.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.loader-bar-wrap {
+  width: 300px;
+  height: 2px;
+  background: var(--blue-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+.loader-bar {
+  position: absolute;
+  left: -60%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  box-shadow: var(--glow);
+  animation: slide 1.2s linear infinite;
+}
+
+@keyframes slide { to { left: 160%; } }
+
+.loader-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: var(--blue);
+  letter-spacing: 0.25em;
+  text-shadow: var(--glow);
+}
+
+#toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 300;
+  background: rgba(3,8,15,0.95);
+  border: 1px solid var(--blue);
+  box-shadow: var(--glow);
+  padding: 10px 24px;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--blue);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+#status-bar {
+  position: fixed;
+  bottom: 12px;
+  left: 20px;
+  z-index: 120;
+  font-size: 0.62rem;
+  color: #2255aa;
+  letter-spacing: 0.12em;
+}
+
+#credit {
+  position: fixed;
+  bottom: 12px;
+  right: 20px;
+  z-index: 120;
+  font-size: 0.62rem;
+  color: #2255aa;
+  letter-spacing: 0.12em;
+}
