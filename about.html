@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLB VIEWER // ABOUT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow: auto; }
+
+    .about-wrap {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 20px 80px;
+      gap: 48px;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      color: var(--blue);
+      text-shadow: var(--glow);
+      letter-spacing: 0.35em;
+      text-align: center;
+    }
+    .page-title span {
+      display: block;
+      font-size: 0.6em;
+      font-weight: 400;
+      color: #5599cc;
+      letter-spacing: 0.2em;
+      margin-top: 6px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: rgba(0, 100, 170, 0.05);
+      border: 1px solid var(--blue-dim);
+      padding: 28px 28px 24px;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: var(--blue);
+      border-style: solid;
+    }
+    .card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+    .card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--glow);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 6px var(--blue));
+    }
+    .card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      color: var(--blue);
+      letter-spacing: 0.25em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 8px #0af6;
+    }
+    .card-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      color: var(--black);
+      background: var(--blue);
+      padding: 2px 8px;
+      margin-bottom: 10px;
+      letter-spacing: 0.12em;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .card-body {
+      font-size: 0.78rem;
+      color: #88aacc;
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+    .card-body li {
+      list-style: none;
+      padding-left: 1em;
+      position: relative;
+    }
+    .card-body li::before {
+      content: '◈';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-size: 0.6em;
+      top: 0.25em;
+    }
+
+    .flow-section {
+      width: 100%;
+      max-width: 1000px;
+    }
+    .section-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      color: var(--blue);
+      letter-spacing: 0.3em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px #0af6;
+    }
+    .section-label::before { content: '// '; opacity: 0.5; }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      align-items: stretch;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 160px;
+      background: rgba(0, 100, 170, 0.05);
+      border: 1px solid var(--blue-dim);
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+    .flow-step + .flow-step { border-left: none; }
+    .flow-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--blue-dim);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .flow-name {
+      font-size: 0.7rem;
+      color: var(--blue);
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .flow-desc {
+      font-size: 0.7rem;
+      color: #5577aa;
+      line-height: 1.6;
+    }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      color: var(--blue-dim);
+      font-size: 1.2rem;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      .flow { flex-direction: column; }
+      .flow-step + .flow-step { border-left: 1px solid var(--blue-dim); border-top: none; }
+      .flow-arrow { transform: rotate(90deg); align-self: center; }
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      width: 100%;
+      max-width: 1000px;
+    }
+    .stat {
+      flex: 1;
+      min-width: 120px;
+      background: rgba(0, 100, 170, 0.07);
+      border: 1px solid var(--blue-dim);
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--blue);
+      text-shadow: var(--glow);
+    }
+    .stat-lbl {
+      font-size: 0.6rem;
+      color: #4477aa;
+      letter-spacing: 0.15em;
+      margin-top: 4px;
+    }
+
+    .back-wrap {
+      display: flex;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="scanlines"></div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="#0af" stroke-width="1.5"/>
+          <polyline points="16,2 16,16 30,22" stroke="#0af" stroke-width="1"/>
+          <line x1="16" y1="16" x2="2" y2="22" stroke="#0af" stroke-width="1"/>
+        </svg>
+      </div>
+      <span>GLB_VIEWER_ONLINE</span>
+    </div>
+    <div class="corner-deco">
+      SYS_INFO&nbsp;/&nbsp;ABOUT<br>
+      <span style="color:#2255aa">REV_1.0.0</span>
+    </div>
+  </header>
+
+  <div class="about-wrap">
+
+    <div class="page-title">
+      SYSTEM_INFO
+      <span>КАК Е НАПРАВЕН ПРОЕКТЪТ</span>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">HTML</div>
+        <div class="card-badge">СТРУКТУРА</div>
+        <ul class="card-body">
+          <li>Основната структура на страницата е направена с HTML</li>
+          <li>Има canvas елемент за фоновите частици</li>
+          <li>Зареждането на файла става чрез обикновен input или drag & drop</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">CSS</div>
+        <div class="card-badge">ВИЗИЯ</div>
+        <ul class="card-body">
+          <li>Целият дизайн е ръчно написан в CSS — без готови библиотеки</li>
+          <li>Cyber / retro визия с cyan цветове и glow ефекти</li>
+          <li>Решетката и scanlines в Background са направени само с CSS</li>
+          <li>Бутоните имат анимация при hover</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">JAVASCRIPT</div>
+        <div class="card-badge">ЛОГИКА</div>
+        <ul class="card-body">
+          <li>С JavaScript са направени фоновите частици, които се движат и се свързват с линии</li>
+          <li>Управлява зареждането на файла и показва грешки ако нещо се обърка</li>
+          <li>Контролира бутоните и съобщенията на екрана</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧊</div>
+        <div class="card-title">THREE.JS</div>
+        <div class="card-badge">3D</div>
+        <ul class="card-body">
+          <li>Three.js е библиотека за 3D графика в браузъра</li>
+          <li>Тя зарежда GLB файла и го показва в сцената</li>
+          <li>Може да въртиш, увеличаваш и движиш модела с мишката</li>
+          <li>Автоматично оразмерява модела за да се вижда добре</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="flow-section">
+      <div class="section-label">КАК РАБОТИ</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-num">01</div>
+          <div class="flow-name">ЗАРЕДИ</div>
+          <div class="flow-desc">Избираш или плъзгаш GLB файл в сайта</div>
+        </div>
+        <div class="flow-arrow">▶</div>
+        <div class="flow-step">
+          <div class="flow-num">02</div>
+          <div class="flow-name">ЗАЧИТА</div>
+          <div class="flow-desc">Three.js чете файла и разбира как изглежда модела</div>
+        </div>
+        <div class="flow-arrow">▶</div>
+        <div class="flow-step">
+          <div class="flow-num">03</div>
+          <div class="flow-name">НАГЛАСЯ</div>
+          <div class="flow-desc">Моделът се центрира и оразмерява автоматично</div>
+        </div>
+        <div class="flow-arrow">▶</div>
+        <div class="flow-step">
+          <div class="flow-num">04</div>
+          <div class="flow-name">ПОКАЗВА</div>
+          <div class="flow-desc">Рендерира се в реално време с осветление и сенки</div>
+        </div>
+        <div class="flow-arrow">▶</div>
+        <div class="flow-step">
+          <div class="flow-num">05</div>
+          <div class="flow-name">РАЗГЛЕЖДАШ</div>
+          <div class="flow-desc">Въртиш и увеличаваш модела с мишката колкото искаш</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <div class="section-label">ПРОЕКТНИ ДАННИ</div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-val">3</div>
+          <div class="stat-lbl">ТЕХНОЛОГИИ</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">~350</div>
+          <div class="stat-lbl">JS РЕДА</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">90</div>
+          <div class="stat-lbl">ЧАСТИЦИ</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">0</div>
+          <div class="stat-lbl">ИНСТАЛИРАНИ ПАКЕТИ</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">CDN</div>
+          <div class="stat-lbl">THREE.JS СЕ ЗАРЕЖДА ОНЛАЙН</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">60fps</div>
+          <div class="stat-lbl">КАДРИ В СЕКУНДА</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="back-wrap">
+      <a href="index.html" class="btn">◁ &nbsp; КЪМ VIEWER-А</a>
+    </div>
+
+  </div>
+
+  <div id="status-bar">GLB_VIEWER // ABOUT // SYSTEM_INFO</div>
+  <div id="credit">MADE BY BOBAKA</div>
+
+  <script>
+    const pCanvas = document.getElementById('particles');
+    const pCtx    = pCanvas.getContext('2d');
+    function resize() { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const particles = Array.from({ length: 90 }, () => ({
+      x:  Math.random() * window.innerWidth,
+      y:  Math.random() * window.innerHeight,
+      r:  Math.random() * 1.2 + 0.2,
+      dx: (Math.random() - 0.5) * 0.3,
+      dy: (Math.random() - 0.5) * 0.3,
+      a:  Math.random() * 0.6 + 0.1,
+    }));
+
+    function draw() {
+      pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+      for (const p of particles) {
+        pCtx.beginPath();
+        pCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        pCtx.fillStyle   = `rgba(0,170,255,${p.a})`;
+        pCtx.shadowBlur  = 6;
+        pCtx.shadowColor = '#0af';
+        pCtx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0)              p.x = pCanvas.width;
+        if (p.x > pCanvas.width)  p.x = 0;
+        if (p.y < 0)              p.y = pCanvas.height;
+        if (p.y > pCanvas.height) p.y = 0;
+      }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < 120) {
+            pCtx.beginPath();
+            pCtx.moveTo(particles[i].x, particles[i].y);
+            pCtx.lineTo(particles[j].x, particles[j].y);
+            pCtx.strokeStyle = `rgba(0,170,255,${0.12 * (1 - d / 120)})`;
+            pCtx.lineWidth   = 0.5;
+            pCtx.shadowBlur  = 0;
+            pCtx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
